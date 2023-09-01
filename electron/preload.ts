@@ -1,3 +1,22 @@
+const { contextBridge, ipcRenderer, shell } = require('electron');
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  app: {
+    getPath: (name: string) => ipcRenderer.invoke('app:getPath', name)
+  },
+
+  shell: {
+    openPath: (path: string) => ipcRenderer.invoke('shell:openPath', path)
+  },
+
+  fs: {
+    readFile: (path: string) => ipcRenderer.invoke('fs:readFile', path)
+  },
+
+  getSettingsPath: () => ipcRenderer.invoke('getSettingsPath'),
+  getSettings: () => ipcRenderer.invoke('getSettings')
+});
+
 function domReady(condition: DocumentReadyState[] = ['complete', 'interactive']) {
   return new Promise((resolve) => {
     if (condition.includes(document.readyState)) {

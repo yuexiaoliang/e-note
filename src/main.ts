@@ -1,7 +1,12 @@
 import { createApp } from 'vue';
-import './style.css';
-import App from './App.vue';
+import 'reset.css';
+import 'github-markdown-css/github-markdown-light.css'
 
-createApp(App)
-  .mount('#app')
-  .$nextTick(() => postMessage({ payload: 'removeLoading' }, '*'));
+import router from '@/router';
+import App from '@/App.vue';
+
+import '@/styles/base.scss';
+
+const app = createApp(App);
+app.use(router);
+app.mount('#app').$nextTick(() => postMessage({ payload: 'removeLoading' }, '*'));

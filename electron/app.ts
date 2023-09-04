@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron';
+import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-assembler';
 import _ from 'lodash-es';
 
 import { createWindow, initWindowInfo } from './window';
@@ -13,6 +14,8 @@ export const createApp = () => {
   });
 
   app.whenReady().then(() => {
+    installExtension(VUEJS_DEVTOOLS);
+
     win = createWindow();
 
     initSettings();

@@ -1,6 +1,7 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import { app, BrowserWindow, ipcMain, shell } from 'electron';
+import _ from 'lodash-es';
 
 // The built directory structure
 //
@@ -31,15 +32,22 @@ function createWindow() {
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
-    win?.webContents.send('main-process-message', new Date().toLocaleString());
+    if (!win) return;
+
+    win.webContents.send('main-process-message', new Date().toLocaleString());
   });
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
   } else {
-    // win.loadFile('dist/index.html')
     win.loadFile(path.join(process.env.DIST, 'index.html'));
   }
+
+  win.on('close', () => {
+    if (!win) return;
+
+    setSettings({ contentBounds: win.getContentBounds() });
+  });
 }
 
 app.on('window-all-closed', () => {
@@ -47,9 +55,11 @@ app.on('window-all-closed', () => {
 });
 
 app.whenReady().then(() => {
-  const settingsPath = path.join(app.getPath('userData'), 'settings.json');
-  initializeSettingsFile(settingsPath);
   createWindow();
+
+  initSettings();
+
+  initWindowInfo();
 
   ipcMain.handle('app:getPath', (_, name) => {
     return app.getPath(name);
@@ -64,20 +74,63 @@ app.whenReady().then(() => {
   });
 
   ipcMain.handle('getSettingsPath', () => {
-    return settingsPath;
+    return getSettingsPath();
   });
 
   ipcMain.handle('getSettings', () => {
-    return fs.readFileSync(settingsPath, 'utf-8');
+    return getSettings();
   });
 });
 
+// 初始化窗口信息
+function initWindowInfo() {
+  if (!win) return;
+
+  const settings = getSettings();
+
+  if (settings.contentBounds) {
+    // 设置窗口位置和大小
+    win.setContentBounds(settings.contentBounds);
+  }
+
+  win.show();
+  win.focus();
+}
+
+// 获取设置文件路径
+function getSettingsPath() {
+  return path.join(app.getPath('userData'), 'Settings');
+}
+
+// 获取设置内容
+function getSettings() {
+  const settingsPath = getSettingsPath();
+
+  return JSON.parse(fs.readFileSync(settingsPath, 'utf-8'));
+}
+
+// 设置
+function setSettings(settings: any) {
+  const settingsPath = getSettingsPath();
+
+  const _old = getSettings();
+  const _new = _.merge(_old, settings);
+
+  try {
+    fs.writeFileSync(settingsPath, JSON.stringify(_new));
+  } catch (error) {}
+}
+
 // 初始化设置文件
-function initializeSettingsFile(path: string) {
+function initSettings() {
+  const path = getSettingsPath();
+
   if (!fs.existsSync(path)) {
-    const settings = {
-      settingsPath: path
-    };
-    fs.writeFileSync(path, JSON.stringify(settings));
+    fs.writeFileSync(
+      path,
+      JSON.stringify({
+        settingsPath: path
+      })
+    );
   }
 }

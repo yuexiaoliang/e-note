@@ -1,9 +1,11 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@types/lodash-es': ^4.17.9
   '@vitejs/plugin-vue': ^4.1.0
   electron: ^24.8.2
   electron-builder: ^23.6.0
+  lodash-es: ^4.17.21
   typescript: ^5.0.2
   vite: ^4.3.2
   vite-plugin-electron: ^0.11.2
@@ -12,9 +14,11 @@ specifiers:
   vue-tsc: ^1.4.2
 
 dependencies:
+  lodash-es: 4.17.21
   vue: 3.3.4
 
 devDependencies:
+  '@types/lodash-es': 4.17.9
   '@vitejs/plugin-vue': 4.3.4_vite@4.4.9+vue@3.3.4
   electron: 24.8.2
   electron-builder: 23.6.0
@@ -368,6 +372,16 @@ packages:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
       '@types/node': 18.17.12
+    dev: true
+
+  /@types/lodash-es/4.17.9:
+    resolution: {integrity: sha512-ZTcmhiI3NNU7dEvWLZJkzG6ao49zOIjEgIE0RgV7wbPxU0f2xT3VSAHw2gmst8swH6V0YkLRGp4qPlX/6I90MQ==}
+    dependencies:
+      '@types/lodash': 4.14.197
+    dev: true
+
+  /@types/lodash/4.14.197:
+    resolution: {integrity: sha512-BMVOiWs0uNxHVlHBgzTIqJYmj+PgCo4euloGF+5m4okL3rEYzM2EEv78mw8zWSMM57dM7kVIgJ2QDvwHSoCI5g==}
     dev: true
 
   /@types/minimatch/5.1.2:
@@ -1557,6 +1571,10 @@ packages:
   /lazy-val/1.0.5:
     resolution: {integrity: sha512-0/BnGCCfyUMkBpeDgWihanIAF9JmZhHBgUhEqzvf+adhNGLoP6TaiI5oF8oyb3I45P+PcnrqihSf01M0l0G5+Q==}
     dev: true
+
+  /lodash-es/4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}

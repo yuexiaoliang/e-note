@@ -9,7 +9,7 @@ const settingsPath = ref('');
 
 onMounted(async () => {
   settingsPath.value = await getSettingsPath();
-  settings.value = JSON.parse(await getSettings(), null, 2);
+  settings.value = await getSettings();
 });
 
 const open = async () => {

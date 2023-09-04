@@ -9,9 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "lodash-es": "^4.17.21",
     "vue": "^3.2.47"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.9",
     "@vitejs/plugin-vue": "^4.1.0",
     "electron": "^24.8.2",
     "electron-builder": "^23.6.0",
